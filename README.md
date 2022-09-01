@@ -18,23 +18,16 @@ bin/vite dev
 
 安装vue
 
-package.json:
-```json
-{
-    ...
-    "@vitejs/plugin-vue" "^3.0.3"
-    "vue": "^3.2.38"
-}
+```js
+//package.json:
+"@vitejs/plugin-vue": "^3.0.3"
+"vue": "^3.2.38"
 ```
 gem "vite_rails" 默认安装vite v2, 而plugin-vue 和vue的最新版本的对应vite是v3
 所以package.json 里 vite的版本手动调到最新
-
-package.json:
-```json
-{
-  ...
-  "vite":"^3.0.9"
-}
+```javascript
+//package.json:
+"vite":"^3.0.9"
 ```
 之前运行忘记rails了
 创建main_controller.rb 修改routes等等, 然后
