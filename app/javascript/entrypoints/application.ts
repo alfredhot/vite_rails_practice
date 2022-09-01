@@ -27,6 +27,9 @@ console.log('Visit the guide for more information: ', 'https://vite-ruby.netlify
 // Example: Import a stylesheet in app/frontend/index.css
 // import '~/index.css'
 import { createApp } from 'vue'
+// @ts-ignore
+import base from '@/views/app.pug'
 const app = createApp({
-
+    template: base
 })
+app.mount('#alfred')

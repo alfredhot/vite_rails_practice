@@ -1,6 +1,15 @@
 # vite_rails_practice
 vite_rails项目结构的构建练习, 之前创建的项目是基于国内的服务器, 各种镜像的设置已经让项目无法简单的转移到海外服务器, 所以就新建了一个从头开始.
 
+>## 参考:
+>- [Vite Ruby](https://vite-ruby.netlify.app/guide/introduction.html)
+>- [Vue](https://cn.vuejs.org/)
+>- [Vue Router](https://router.vuejs.org/zh/introduction.html)
+>- [Vite](https://cn.vitejs.dev/guide/)
+>- [Pug](https://pugjs.org/api/getting-started.html)
+>- [rollup-plugin-pug](https://github.com/aMarCruz/rollup-plugin-pug)
+>- 
+
 ## Struct Log
 ### 2022-08-31
 ```shell
@@ -36,3 +45,9 @@ bin/rails server
 bin/vite dev
 ```
 能进入项目页面了. 虽然在报错,
+
+### 2022-09-01
+设定项目需求: 简单的bootpay admin
+
+- 导入vue后创建应用
+- 尝试pug
