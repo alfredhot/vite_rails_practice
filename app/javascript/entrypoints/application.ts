@@ -3,6 +3,8 @@
 //
 //    <%= vite_client_tag %>
 //    <%= vite_javascript_tag 'application' %>
+import requireTransform from 'vite-plugin-require-transform'
+
 console.log('Vite ⚡️ Rails')
 
 // If using a TypeScript entrypoint file:
@@ -27,9 +29,6 @@ console.log('Visit the guide for more information: ', 'https://vite-ruby.netlify
 // Example: Import a stylesheet in app/frontend/index.css
 // import '~/index.css'
 import { createApp } from 'vue'
-// @ts-ignore
-import base from '@/views/app.pug'
 const app = createApp({
-    template: base
 })
 app.mount('#alfred')

@@ -50,4 +50,8 @@ bin/vite dev
 设定项目需求: 简单的bootpay admin
 
 - 导入vue后创建应用
-- 尝试pug
+- 安装typescript `npm install typescript -g`
+- `tsc --init` 生成 tsconfig.json 并初始化
+- 设置tsconfig.json vie [vitejs](https://vitejs.dev/guide/features.html#typescript)
+- `npm init vue@lates` 创建标准的vue项目参考tsconfig.json
+- stuck in require not found
