@@ -30,5 +30,6 @@ console.log('Visit the guide for more information: ', 'https://vite-ruby.netlify
 // import '~/index.css'
 import { createApp } from 'vue'
 const app = createApp({
+    template: require('@views/layouts/app.pug')
 })
 app.mount('#alfred')

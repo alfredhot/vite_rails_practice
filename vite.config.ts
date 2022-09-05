@@ -10,15 +10,14 @@ export default defineConfig({
     plugins: [
         RubyPlugin(),
         vue(),
+        requireTransform({fileRegex: /.ts$|.tsx$|.js$|.jsx$|.pug$/}),
         tsconfigPaths(),
         pug({staticPattern: /\S/}),
-        requireTransform({})
     ],
     resolve: {
         extensions: ['.css', '.sass', '.scss', '.html', '.tsx', '.ts', '.js', '.pug', 'ttf', 'woff'],
         alias: {
             'vue': 'vue/dist/vue.esm-bundler.js',
-            'require': 'vite-plugin-require-transform/dist/index.js',
             "@": path.resolve(__dirname, 'app/'),
         }
     }
