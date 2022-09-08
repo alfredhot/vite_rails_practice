@@ -24,6 +24,7 @@ export default defineConfig({
         alias: {
             'vue': 'vue/dist/vue.esm-bundler.js',
             "@": path.resolve(__dirname, 'app/'),
+            '$': 'jquery',
         }
     }
 })
