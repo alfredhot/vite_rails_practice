@@ -6,16 +6,12 @@
     "pug": "^3.0.2",
     "vite": "^3.0.0",
     "vite-plugin-ruby": "^3.1.0",
-    "vite-plugin-pug": "^0.3.1",
-    "vite-plugin-html": "^3.2.0",
-    "vite-plugin-require": "^1.0.1",
-
     "vite-tsconfig-paths": "^3.5.0",
     "vue": "^3.2.38",
     "vue-router": "^4.1.5",
-    "rollup-plugin-pug": "^1.1.1",
-    "vite-plugin-require-transform": "^1.0.3"
+    "rollup-plugin-pug": "^1.1.1"
   },
   "dependencies": {
+    "vite-plugin-require-transform": "^1.0.3"
   }
 }
