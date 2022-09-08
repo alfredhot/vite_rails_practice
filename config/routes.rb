@@ -5,4 +5,8 @@ Rails.application.routes.draw do
   # root "articles#index"
   root "main#index"
   resources :main
+
+  namespace :admin do
+    resources :menu
+  end
 end

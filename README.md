@@ -55,3 +55,11 @@ bin/vite dev
 - 设置tsconfig.json vie [vitejs](https://vitejs.dev/guide/features.html#typescript)
 - `npm init vue@lates` 创建标准的vue项目参考tsconfig.json
 - stuck in require not found
+### 2022-09-08
+- require 使用 'vite-plugin-require-transform' 解决
+- 编辑器require报错是因为 tsconfig.json 中设置了 "types" 和 "typeRoots", 明明vite教程里说需要设置这两项..
+- rollup-plugin-pug 插件运行时报错. 似乎pug插件需要安装, 但不需要它运行 (为啥?) 所以在配置中添加{ staticPattern: /\b/ }使其无法匹配文件
+- `application.slim`里javascript_import 什么的删除, 似乎entrypoint 在vite中控制, 不需要我们动手, 不然会报错
+- 这下console干净了
+- 创建 Side, Left, 等空白基础组件
+- 配置使用`vue-router`

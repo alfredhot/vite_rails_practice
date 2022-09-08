@@ -1,35 +1,18 @@
-// To see this message, add the following to the `<head>` section in your
-// views/layouts/application.html.erb
-//
-//    <%= vite_client_tag %>
-//    <%= vite_javascript_tag 'application' %>
-import requireTransform from 'vite-plugin-require-transform'
-
-console.log('Vite ⚡️ Rails')
-
-// If using a TypeScript entrypoint file:
-//     <%= vite_typescript_tag 'application' %>
-//
-// If you want to use .jsx or .tsx, add the extension:
-//     <%= vite_javascript_tag 'application.jsx' %>
-
-console.log('Visit the guide for more information: ', 'https://vite-ruby.netlify.app/guide/rails')
-
-// Example: Load Rails libraries in Vite.
-//
-// import * as Turbo from '@hotwired/turbo'
-// Turbo.start()
-//
-// import ActiveStorage from '@rails/activestorage'
-// ActiveStorage.start()
-//
-// // Import all channels.
-// const channels = import.meta.globEager('./**/*_channel.js')
-
-// Example: Import a stylesheet in app/frontend/index.css
-// import '~/index.css'
 import { createApp } from 'vue'
+import { createRouter,createWebHistory } from 'vue-router'
+import { routes } from '@/javascript/routes'
+import { Header } from '@/javascript/components/layouts/header'
+import { Side } from '@/javascript/components/layouts/side'
+const router = createRouter({
+    history: createWebHistory(),
+    routes,
+})
 const app = createApp({
+    components: { Side, Header },
     template: require('@/views/layouts/app.pug')
 })
+app.use(router)
 app.mount('#alfred')
+
+console.log('Vite ⚡️ Rails')
+console.log('Visit the guide for more information: ', 'https://vite-ruby.netlify.app/guide/rails')
