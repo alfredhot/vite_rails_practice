@@ -3,7 +3,7 @@ import { onMounted, onUnmounted, ref } from 'vue'
 /**
  * 페이지 로딩시 이벤트를 설정할 수 있음
  * Comment by Alfred
- * @date 2022/09/14 4:34 PM
+ * @date 2022/09/14 4:39 PM
  */
 export const useEventListener = (target: EventTarget, event: string, callback: any) => {
     onMounted(() => target.addEventListener(event, callback))
