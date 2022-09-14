@@ -3,6 +3,7 @@ import { createRouter,createWebHistory } from 'vue-router'
 import { routes } from '@/javascript/routes'
 import { Header } from '@/javascript/components/layouts/header'
 import { Side } from '@/javascript/components/layouts/side'
+
 const router = createRouter({
     history: createWebHistory(),
     routes,

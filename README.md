@@ -63,3 +63,7 @@ bin/vite dev
 - 这下console干净了
 - 创建 Side, Left, 等空白基础组件
 - 配置使用`vue-router`
+
+### 2022-09-14
+- jquery  需要安装 `@types/jquery`
+- 开始tailwind css
