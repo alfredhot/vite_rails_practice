@@ -28,10 +28,7 @@ export default defineConfig({
             '$': 'jquery',
         }
     },
-    // server: {
-    //     hmr: {
-    //         port: 443
-    //     }
-    // }
-
+    server: {
+        strictPort: true
+    }
 })

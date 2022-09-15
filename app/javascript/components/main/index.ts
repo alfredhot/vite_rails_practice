@@ -2,6 +2,7 @@ import { onMounted } from 'vue'
 import { useMouse } from '@vendor/support/event'
 import $ from 'jquery'
 
+export const arr = 0
 export const MainIndex = {
     template: require('@/views/main/index'),
     data() {
@@ -9,8 +10,8 @@ export const MainIndex = {
     },
     setup(){
         onMounted(()=>{
-            console.log("mounted")
-            console.log($('.jquery-test')[0])
+            console.log("mounted try this s d lets go alfred" +
+                "")
         })
         const { x: mouseX, y: mouseY } = useMouse()
 
