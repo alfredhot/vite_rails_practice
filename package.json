@@ -1,20 +1,21 @@
 {
   "devDependencies": {
-    "@types/node": "^18.7.14",
+    "@types/node": "^18.7.18",
     "@types/pug": "^2.0.6",
     "@types/jquery": "^3.5.14",
-    "@vitejs/plugin-vue": "^3.0.3",
+    "@vitejs/plugin-vue": "^3.1.0",
     "autoprefixer": "^10.4.10",
     "jquery": "^3.6.1",
     "postcss": "^8.4.16",
     "pug": "^3.0.2",
     "rollup-plugin-pug": "^1.1.1",
+    "sass": "^1.54.9",
     "tailwindcss": "^3.1.8",
-    "vite": "^3.0.0",
+    "vite": "^3.1.0",
     "vite-plugin-html": "^3.2.0",
-    "vite-plugin-ruby": "^3.1.0",
+    "vite-plugin-ruby": "^3.1.2",
     "vite-tsconfig-paths": "^3.5.0",
-    "vue": "^3.2.38",
+    "vue": "^3.2.39",
     "vue-router": "^4.1.5"
   },
   "dependencies": {

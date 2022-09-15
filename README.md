@@ -67,3 +67,22 @@ bin/vite dev
 ### 2022-09-14
 - jquery  需要安装 `@types/jquery`
 - 开始tailwind css
+### 2022-09-15
+- 安装 `sass`, 只需要在`package.json` 里添加 "sass"
+- 重新运行本地服务器的时候console报错显示
+    ```text
+    [vite] server connection lost. polling for restart...
+    GET http://127.0.0.1:3036/vite-dev/ net::ERR_CONNECTION_REFUSED
+    GET http://127.0.0.1:3036/vite-dev/ net::ERR_CONNECTION_REFUSED
+    ...
+    ```
+  应该是vite-dev服务器没能启动导致找不到本地服务器, 在`config/vite.json`里把`development.port` 更改为3038(或者任意其他)就好了, 估计是端口被占用了.
+- tailwindcss 没有效果的原因是在`tailwind.config.js`中, content的配置项里, 匹配路径中不能包含空格🥲
+  ```javascript
+  module.exports = {
+    content: [
+        // 这是错误的, "ts, js"之间的空格去掉, 这时候就不要管没不美观了, 毕竟是字符串啊!
+        "./app/**/*.{ts, js, pug, vue, jsx, tsx}",
+    ]
+  }
+  ```

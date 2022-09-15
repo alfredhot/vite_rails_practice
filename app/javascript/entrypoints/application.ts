@@ -3,7 +3,7 @@ import { createRouter,createWebHistory } from 'vue-router'
 import { routes } from '@/javascript/routes'
 import { Header } from '@/javascript/components/layouts/header'
 import { Side } from '@/javascript/components/layouts/side'
-import '@/javascript/stylesheets/application.css'
+import '@/javascript/stylesheets/application.sass'
 
 const router = createRouter({
     history: createWebHistory(),
