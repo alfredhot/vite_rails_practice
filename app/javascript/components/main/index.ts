@@ -10,7 +10,7 @@ export const MainIndex = {
     },
     setup(){
         onMounted(()=>{
-            console.log("mounted try this s d lets go alfred" +
+            console.log("mounted try this s d let  s go alfred" +
                 "")
         })
         const { x: mouseX, y: mouseY } = useMouse()
