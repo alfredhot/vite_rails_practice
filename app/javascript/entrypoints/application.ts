@@ -4,6 +4,10 @@ import { routes } from '@/javascript/routes'
 import { Header } from '@/javascript/components/layouts/header'
 import { Side } from '@/javascript/components/layouts/side'
 import '@/javascript/stylesheets/application.sass'
+import '@fortawesome/fontawesome-free/css/fontawesome.min.css'
+import '@fortawesome/fontawesome-free/css/brands.min.css'
+import '@fortawesome/fontawesome-free/css/solid.min.css'
+import '@fortawesome/fontawesome-free/css/regular.min.css'
 
 const router = createRouter({
     history: createWebHistory(),

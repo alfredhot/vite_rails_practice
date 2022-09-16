@@ -91,3 +91,4 @@ bin/vite dev
 - hmr 服务器本地无法连接的问题通过在`vite.config.ts` 中添加 `server.hmr: true` 来暂时解决. 
   但也会显示websocket连接不上反向代理所以fallback的问题.
   不过不影响开发使用, 暂时就这样搁置. 在部署阶段再研究.
+- 制作一个简易的menu面板
