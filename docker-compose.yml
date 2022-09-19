@@ -1,0 +1,12 @@
+version: '3'
+services:
+  alfred_admin:
+    build:
+      context: .
+      dockerfile: ./config/docker/development/Dockerfile
+    hostname: alfred-admin
+    container_name: alfred-admin
+    volumes:
+      - ./:/var/www/
+    ports:
+      - "10000:80"

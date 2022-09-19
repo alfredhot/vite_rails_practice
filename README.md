@@ -92,3 +92,7 @@ bin/vite dev
   但也会显示websocket连接不上反向代理所以fallback的问题.
   不过不影响开发使用, 暂时就这样搁置. 在部署阶段再研究.
 - 制作一个简易的menu面板
+### 2022-09-19
+- docker 化
+- 参考1: https://yeasy.gitbook.io/docker_practice/compose/rails
+- foreman manual(third party): https://ddollar.github.io/foreman/#SYSTEMD-EXPORT

@@ -1,0 +1,49 @@
+FROM ruby:3.1.2
+
+RUN apt-get install -y curl
+RUN echo "$(sed -e 's/deb.debian.org/ftp.kr.debian.org/g' /etc/apt/sources.list)" > /etc/apt/sources.list
+# Install dependencies
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
+        curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+        echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && apt-get install -y build-essential libpq-dev nginx-extras  imagemagick libmagickwand-dev libssl-dev libreadline-dev nodejs libffi-dev yarn vim net-tools libsnappy-dev
+RUN apt-get clean && rm -rf /var/cache/apt/archives && rm -rf /var/lib/apt/lists
+
+# Set an environment variable where the Rails app is installed to inside of Docker image:
+ENV RAILS_ROOT /var/www
+# RUN mkdir -p $RAILS_ROOT
+
+# Set working directory, where the commands will be ran:
+WORKDIR $RAILS_ROOT
+RUN groupadd -g 1001 alfredhot
+RUN useradd -m -d /home/alfredhot -r -u 1001 -g alfredhot alfredhot
+# Setting env up
+ENV RAILS_ENV='development'
+ENV RACK_ENV='development'
+ENV NODE_ENV='development'
+ENV USER=alfredhot
+
+COPY ./config/docker/development/site.example.conf /etc/nginx/sites-enabled/site.conf
+COPY ./config/docker/development/nginx.example.conf /etc/nginx/nginx.conf
+RUN rm -f /etc/nginx/sites-enabled/default
+RUN ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
+
+RUN chown -R $USER:$USER /var/lib/nginx && chown -R $USER:$USER /var/log/nginx && chown -R $USER:$USER $RAILS_ROOT
+
+USER $USER
+
+# Adding gems
+COPY Gemfile Gemfile
+COPY package.json package.json
+RUN yarn install
+RUN bundle install -j4
+
+COPY --chown=$USER:$USER . .
+#RUN rm -rf ./app && rm -rf ./vendor && rm -rf ./config && rm -rf ./log
+# RUN mkdir $RAILS_ROOT/log
+RUN if [ ! -d "$RAILS_ROOT/tmp" ]; then  mkdir $RAILS_ROOT/tmp; fi && if [ ! -d "$RAILS_ROOT/tmp/pids" ]; then  mkdir $RAILS_ROOT/tmp/pids; fi && if [ ! -d "$RAILS_ROOT/tmp/sockets" ]; then  mkdir $RAILS_ROOT/tmp/sockets; fi && if [ ! -d "$RAILS_ROOT/log" ]; then  mkdir $RAILS_ROOT/log; fi
+RUN chown -R $USER:$USER $RAILS_ROOT/log && chown -R $USER:$USER $RAILS_ROOT/public && chown -R $USER:$USER $RAILS_ROOT/tmp && chmod 755 $RAILS_ROOT/bin/*
+RUN chmod 711 development-startup.sh
+
+EXPOSE 80
+CMD ( nginx -g "daemon off;" & ) && ( ./development-startup.sh )
