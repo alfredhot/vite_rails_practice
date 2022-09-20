@@ -10,7 +10,7 @@ export const Side = {
             },{
                 name: "컴포넌트",
                 icon: "fa-solid fa-toggle-off",
-                path: "/component",
+                path: "/dev",
                 children: [],
             },{
                 name: '설정',
