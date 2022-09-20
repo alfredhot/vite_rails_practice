@@ -11,10 +11,23 @@ RUN apt-get clean && rm -rf /var/cache/apt/archives && rm -rf /var/lib/apt/lists
 
 ENV RAILS_ROOT /var/www
 WORKDIR $RAILS_ROOT
-COPY Gemfile $RAILS_ROOT/Gemfile
-COPY package.json $RAILS_ROOT/package.json
+
+ENV USER=alfredhot
+RUN groupadd -g 1001 $USER
+RUN useradd -m -d /home/$USER -r -u 1001 -g $USER $USER
+RUN chown -R $USER:$USER $RAILS_ROOT
+
+USER $USER
+
+COPY Gemfile Gemfile
+COPY package.json package.json
 RUN yarn install
 RUN bundle install -j4
 
+COPY --chown=$USER:$USER . .
+RUN if [ ! -d "$RAILS_ROOT/tmp" ]; then  mkdir $RAILS_ROOT/tmp; fi && if [ ! -d "$RAILS_ROOT/tmp/pids" ]; then  mkdir $RAILS_ROOT/tmp/pids; fi && if [ ! -d "$RAILS_ROOT/tmp/sockets" ]; then  mkdir $RAILS_ROOT/tmp/sockets; fi && if [ ! -d "$RAILS_ROOT/log" ]; then  mkdir $RAILS_ROOT/log; fi
+RUN chown -R $USER:$USER $RAILS_ROOT/tmp && chmod 755 $RAILS_ROOT/bin/* && chown $USER:$USER $RAILS_ROOT/Gemfile.lock
+
+#RUN chmod 711 ./development-startup.sh
 EXPOSE 80
-CMD ["./development_startup.sh"]
+CMD ./development-startup.sh

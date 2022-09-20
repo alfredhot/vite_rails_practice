@@ -96,3 +96,6 @@ bin/vite dev
 - docker 化
 - 参考1: https://yeasy.gitbook.io/docker_practice/compose/rails
 - foreman manual(third party): https://ddollar.github.io/foreman/#SYSTEMD-EXPORT
+### 2022-09-20
+- docker化中的一些关键点:
+  - 

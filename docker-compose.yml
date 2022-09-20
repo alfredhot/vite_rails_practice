@@ -4,9 +4,13 @@ services:
     build:
       context: .
       dockerfile: ./config/docker/development/Dockerfile
+    volumes:
+      - ./app:/var/www/app
+      - ./bin:/var/www/bin
+      - ./config:/var/www/config
+      - ./public:/var/www/public
+      - ./vendor:/var/www/vendor
+    ports:
+      - "10000:5100"
     hostname: alfred-admin
     container_name: alfred-admin
-    volumes:
-      - ./:/var/www/
-    ports:
-      - "10000:80"
