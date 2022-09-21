@@ -1,4 +1,3 @@
 
 vite: bin/vite dev
 rails: bundle exec puma -C config/docker/development/puma.rb
-web: bin/rails s
