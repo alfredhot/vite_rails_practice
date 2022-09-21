@@ -155,4 +155,6 @@ bin/vite dev
       
       CMD ( echo "$(/sbin/ip route|awk '/default/ { print $3 }') vm.host" >> /etc/hosts) && (nginx -g "daemon off;")
       ```
-- 需要解决的问题: `Procfile.dev` 中puma似乎和rails命令重叠 
+- 需要解决的问题: 
+  - `Procfile.dev` 中puma似乎和rails命令重叠 
+  - vite-dev 链接出错
