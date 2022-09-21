@@ -15,7 +15,17 @@ WORKDIR $RAILS_ROOT
 ENV USER=alfredhot
 RUN groupadd -g 1001 $USER
 RUN useradd -m -d /home/$USER -r -u 1001 -g $USER $USER
-RUN chown -R $USER:$USER $RAILS_ROOT
+
+# Setting env up
+ENV RAILS_ENV='development'
+ENV RACK_ENV='development'
+ENV NODE_ENV='development'
+
+COPY ./config/docker/development/nginx.example.conf /etc/nginx/nginx.conf
+COPY ./config/docker/development/site.example.conf /etc/nginx/sites-enabled/site.conf
+RUN rm -f /etc/nginx/sites-enabled/default
+
+RUN chown -R $USER:$USER /var/lib/nginx && chown -R $USER:$USER /var/log/nginx && chown -R $USER:$USER $RAILS_ROOT
 
 USER $USER
 
@@ -30,4 +40,4 @@ RUN chown -R $USER:$USER $RAILS_ROOT/tmp && chmod 755 $RAILS_ROOT/bin/* && chown
 
 #RUN chmod 711 ./development-startup.sh
 EXPOSE 80
-CMD ./development-startup.sh
+CMD ( nginx -g "daemon off;" & ) && ( ./development-startup.sh )

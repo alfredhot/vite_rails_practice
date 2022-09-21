@@ -8,7 +8,7 @@ vite_rails项目结构的构建练习, 之前创建的项目是基于国内的�
 >- [Vite](https://cn.vitejs.dev/guide/)
 >- [Pug](https://pugjs.org/api/getting-started.html)
 >- [rollup-plugin-pug](https://github.com/aMarCruz/rollup-plugin-pug)
->- 
+>- [菜鸟教程-docker](https://www.runoob.com/docker/docker-tutorial.html)
 
 ## Struct Log
 ### 2022-08-31
@@ -98,4 +98,61 @@ bin/vite dev
 - foreman manual(third party): https://ddollar.github.io/foreman/#SYSTEMD-EXPORT
 ### 2022-09-20
 - docker化中的一些关键点:
-  - 
+  - `Dockerfile`
+    - 安装curl, yarn, 等依赖
+    - 设置根目录
+    - 复制 Gemfile, package.json, 并 `yarn install` `bundle install`
+    - 将本地目录覆盖过来, 创建`/tmp`路径下所需的文件夹, 设置各个路径的权限
+    - 末尾运行项目的命令打包到.sh文件里, 因为需要运行多项命令, 而Dockerfile的`CMD`只能运行最后一行
+    - .sh里用`foreman start -f Procfile.dev` 来发起项目, 因使用`foreman`做进程守护, 所以`Gemfile`里需要添加`foreman` 
+  - `Procfile.dev`
+    ```text
+    # Procfile.dev
+  
+    vite: bin/vite dev
+    rails: bundle exec puma -C config/docker/development/puma.rb
+    web: bin/rails s
+    ```
+  - `docker-compose.yml`
+    - 添加数据卷到镜像路径中, 这样服务器上的代码修改会直接反应到镜像容器中
+    - 端口映射, 外部端口10000(任意)映射到内部80端口上
+    
+### 2022-09-21
+- 发现一篇不错的文章, Mark一下: https://5xruby.tw/posts/deploying-your-docker-rails-app
+- nginx 配置:
+  - 部署结构: 
+    - 服务器中运行一个nginx镜像(1)用来接收外部请求, 项目的镜像中再单独运行一个nginx(2)用来接收由(1)转发过来的请求. 
+  - 请求过程:
+    1. nginx镜像接收请求, 发送到对应项目的镜像打开的端口 
+    2. 对应项目镜像中的nginx从镜像公开的端口接收转发过来的请求, 在转发给puma的socket上
+    3. 由rails接手
+  - 配置摘要
+    - 项目内部nginx:
+      1. Dockerfile中加入安装nginx的命令 `RUN apt-get install nginx-extras` 
+      2. 生成`nginx.conf`和 `site.conf` 
+      3. 在build时复制到nginx配置路径:
+         ```dockerfile
+         COPY ./config/docker/development/nginx.example.conf /etc/nginx/nginx.conf
+         COPY ./config/docker/development/site.example.conf /etc/nginx/sites-enabled/site.conf
+         RUN rm -f /etc/nginx/sites-enabled/default
+         ```
+      4. Dockerfile末尾的`CMD`中添加运行nginx命令
+         ```dockerfile
+         CMD ( nginx -g "daemon off;" & ) && ( ./development-startup.sh )
+         ```
+      5. docker-compose.yml `service.alfred_admin.ports: - "10000:80"`
+        暴露出10000号端口, 映射到自身的80端口上. 这样其他容器将请求发送到10000号端口即可.
+        往后在服务器里添加其他项目的镜像可以延续使用叠加端口号, 如: 10001, 10002, ..
+    - nginx单独镜像配置
+      1. Dockerfile `FROM nginx` 拉取nginx的镜像
+      2. 生成要复制到配置路径的文件夹`conf`, 生成`conf/nginx.conf` 和 `conf/sites-enabled/admin.conf`
+      3. `nginx.conf`可以使用默认设置, 注意末尾要把`sites-enable/*`路径include进来, 在这里我将镜像build后, 把`/etc/nginx/nginx.conf` 的内容直接复制了过来, 然后添加一些配置
+      4. `sites-enabled/admin.conf` 是对应这次项目的配置, 以后添加项目就可以在该路径下继续添加对应conf文件来在服务器里运行多个项目实例.
+      5. 将本地的`conf`文件夹复制到镜像的`/etc/nginx`路径 (代码如下)
+      6. 获取镜像的本地IP, 映射到host里 (代码如下), 并运行nginx
+      ```dockerfile
+      ADD ./conf /etc/nginx
+      
+      CMD ( echo "$(/sbin/ip route|awk '/default/ { print $3 }') vm.host" >> /etc/hosts) && (nginx -g "daemon off;")
+      ```
+- 需要解决的问题: `Procfile.dev` 中puma似乎和rails命令重叠 

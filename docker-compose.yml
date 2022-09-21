@@ -1,6 +1,7 @@
 version: '3'
 services:
   alfred_admin:
+    user: "1001:1001"
     build:
       context: .
       dockerfile: ./config/docker/development/Dockerfile
@@ -11,6 +12,6 @@ services:
       - ./public:/var/www/public
       - ./vendor:/var/www/vendor
     ports:
-      - "10000:5100"
+      - "10000:80"
     hostname: alfred-admin
     container_name: alfred-admin
