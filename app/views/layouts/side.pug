@@ -6,12 +6,13 @@
   .side-menu.flex-1.pt-10
     ul.menu-list
       li.menu-item(v-for="menu in menuList")
-        .menu-wrapper.group.relative
-          router-link(:to="menu.path" v-if="menu.children.length <= 0")
+        .menu-wrapper.group.relative(v-if="menu.children.length <= 0")
+          router-link(:to="menu.path")
             .icon-wrapper.text-white.text-2xl.text-center.py-2.transition-bg.ease-in-out.duration-200.relative(class="group-hover:text-sky-500 group-hover:bg-white")
               i(:class="menu.icon")
-              .children-chevron.text-xs.absolute(class="right-3 top-1/2 -translate-y-1/2" v-if="menu.children.length > 0")
-                i.fa-solid.fa-chevron-left
+          .menu-name.absolute.left-full.w-20.hidden.bg-white.top-0.border.inline-block(class="group-hover:block")
+            | {{ menu.name }}
+        .menu-wrapper.group.relative(v-else="menu.children.length <= 0")
           .icon-wrapper.text-white.text-2xl.text-center.py-2.transition-bg.ease-in-out.duration-200.relative(v-else class="group-hover:text-sky-500 group-hover:bg-white")
             i(:class="menu.icon")
             .children-chevron.text-xs.absolute(class="right-3 top-1/2 -translate-y-1/2" v-if="menu.children.length > 0")
