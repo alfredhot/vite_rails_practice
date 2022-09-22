@@ -10,6 +10,8 @@ vite_rails项目结构的构建练习, 之前创建的项目是基于国内的�
 >- [rollup-plugin-pug](https://github.com/aMarCruz/rollup-plugin-pug)
 >- [菜鸟教程-docker](https://www.runoob.com/docker/docker-tutorial.html)
 
+[TOC!]
+
 ## Struct Log
 ### 2022-08-31
 ```shell
@@ -93,7 +95,7 @@ bin/vite dev
   不过不影响开发使用, 暂时就这样搁置. 在部署阶段再研究.
 - 制作一个简易的menu面板
 ### 2022-09-19
-- docker 化
+- docker化,用于开发服务器
 - 参考1: https://yeasy.gitbook.io/docker_practice/compose/rails
 - foreman manual(third party): https://ddollar.github.io/foreman/#SYSTEMD-EXPORT
 ### 2022-09-20
@@ -156,5 +158,25 @@ bin/vite dev
       CMD ( echo "$(/sbin/ip route|awk '/default/ { print $3 }') vm.host" >> /etc/hosts) && (nginx -g "daemon off;")
       ```
 - 需要解决的问题: 
-  - `Procfile.dev` 中puma似乎和rails命令重叠 
-  - vite-dev 链接出错
+  - `Procfile.dev` 中puma似乎和rails命令重叠 [v](#2022-09-22) 
+  - vite-dev 链接出错 [v](#2022-09-22)
+### 2022-09-22
+- `Procfile.dev` 中尝试删除rails命令, 运行正常. 原因待研究
+- `/vite-dev`socket 链接出错解决: vite在客户端会和服务器端构建套接字连接来进行hmr, 通信的地址是`ws://YOUR-IP-OR-DOMAIN/vite-dev`
+  所以开发服务器的nginx需要处理该请求
+  - 服务器的nginx docker 项目中调整 `sites-enabled/admin.conf`文件
+    ```text
+    # 将下面的内容添加到 sites-enabled/admin.conf 文件的 server 配置块内部
+    
+    location ~ ^/vite-dev {
+        proxy_redirect off;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_read_timeout 86400;
+        proxy_pass http://alfred_admin;
+        break;
+    }
+    # proxy_pass的转发地址记得修改适配
+    ```
+  - 重新 `docker compose build`  `docker compose up -d`
