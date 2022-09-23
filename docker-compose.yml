@@ -4,7 +4,7 @@ services:
     user: "1001:1001"
     build:
       context: .
-      dockerfile: ./config/docker/development/Dockerfile
+      dockerfile: config/docker/development/Dockerfile.alpine
     volumes:
       - ./app:/var/www/app
       - ./bin:/var/www/bin

@@ -180,3 +180,7 @@ bin/vite dev
     # proxy_pass的转发地址记得修改适配
     ```
   - 重新 `docker compose build`  `docker compose up -d`
+### 2022-09-23
+- 尝试用域名访问网站(暂时用host映射)
+- 尝试alpine镜像
+- alpine 切换成功, 但对容量帮助不大, 放弃

@@ -1,0 +1,36 @@
+FROM ruby:3.1.2-alpine3.16
+
+RUN apk update && apk upgrade && apk add --update --no-cache build-base libpq-dev nginx imagemagick nodejs imagemagick-dev libffi-dev yarn vim net-tools
+
+ENV RAILS_ROOT /var/www
+WORKDIR $RAILS_ROOT
+
+ENV USER=alfredhot
+RUN addgroup -g 1001 -S $USER
+RUN adduser -g "" -s /bin/bash -D -G $USER -u 1001 $USER
+
+# Setting env up
+ENV RAILS_ENV='development'
+ENV RACK_ENV='development'
+ENV NODE_ENV='development'
+
+COPY ./config/docker/development/nginx.example.conf /etc/nginx/nginx.conf
+COPY ./config/docker/development/site.example.conf /etc/nginx/sites-enabled/site.conf
+RUN rm -f /etc/nginx/sites-enabled/default
+
+RUN chown -R $USER:$USER /var/lib/nginx && chown -R $USER:$USER /var/log/nginx && chown -R $USER:$USER $RAILS_ROOT
+
+USER $USER
+
+COPY Gemfile Gemfile
+COPY package.json package.json
+RUN yarn install
+RUN bundle install -j4
+
+COPY --chown=$USER:$USER . .
+RUN if [ ! -d "$RAILS_ROOT/tmp" ]; then  mkdir $RAILS_ROOT/tmp; fi && if [ ! -d "$RAILS_ROOT/tmp/pids" ]; then  mkdir $RAILS_ROOT/tmp/pids; fi && if [ ! -d "$RAILS_ROOT/tmp/sockets" ]; then  mkdir $RAILS_ROOT/tmp/sockets; fi && if [ ! -d "$RAILS_ROOT/log" ]; then  mkdir $RAILS_ROOT/log; fi
+RUN chown -R $USER:$USER $RAILS_ROOT/tmp && chmod 755 $RAILS_ROOT/bin/* && chown $USER:$USER $RAILS_ROOT/Gemfile.lock
+
+#RUN chmod 711 ./development-startup.sh
+EXPOSE 80
+CMD (ls -la) && ( nginx -g "daemon off;" & ) && ( ./development-startup.sh )
