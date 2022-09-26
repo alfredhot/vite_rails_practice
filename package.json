@@ -9,6 +9,7 @@
     "jquery": "^3.6.1",
     "postcss": "^8.4.16",
     "pug": "^3.0.2",
+    "postcss-import": "^15.0.0",
     "rollup-plugin-pug": "^1.1.1",
     "sass": "^1.54.9",
     "tailwindcss": "^3.1.8",
