@@ -184,3 +184,5 @@ bin/vite dev
 - 尝试用域名访问网站(暂时用host映射)
 - 尝试alpine镜像
 - alpine 切换成功, 但对容量帮助不大, 放弃
+### 2022-10-07
+- package.json 中 "dependencies" 和 "devDependencies" 在开发自身项目的时候并没有区别. 在开发包或库的时候需要区别对待.
